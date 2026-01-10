@@ -1,18 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../components/ui/button";
 import { Copy } from 'lucide-react';
+import { useGetShortenUrl } from "@/hooks/useGetShortenUrl";
 
 
 export const Homepage = () => {
   const [url, setUrl] = useState("");
-  const [shortenedUrl, setShortenedUrl] = useState("");
+  const [urlInput, setUrlInput] = useState("");
+  const [shortenedUrl, setShortenedUrl] = useState('');
+  const { data } = useGetShortenUrl(urlInput);
 
+  console.log('hello');
+  
   const handleSubmit = () => {
-    console.log(url);
-    setShortenedUrl(url)
+    if (url.trim()) {
+      setUrlInput(url);
+    }
   };
 
+  useEffect(() => {
+    if (data) {
+      const shortUrl = `${window.location.origin}/${data}`;
+      setShortenedUrl(shortUrl);
+    }
+  }, [data]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-50">
       <div className="w-full max-w-2xl space-y-6">
