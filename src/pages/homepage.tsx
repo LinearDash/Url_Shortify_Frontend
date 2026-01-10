@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../components/ui/button";
+import { Copy } from 'lucide-react';
+
 
 export const Homepage = () => {
   const [url, setUrl] = useState("");
+  const [shortenedUrl, setShortenedUrl] = useState("");
 
   const handleSubmit = () => {
     console.log(url);
+    setShortenedUrl(url)
   };
 
   return (
@@ -27,6 +31,16 @@ export const Homepage = () => {
           />
           <Button className="sm:ml-0" onClick={handleSubmit}>Shorten</Button>
         </div>
+        {shortenedUrl && (
+            <div className="bg-white p-4 rounded shadow text-center flex-2 flex-row">
+            <p className="text-gray-800">Shortened URL:</p>
+            <div className="flex items-center justify-center gap-2">
+               <a href={shortenedUrl} className="text-blue-600 underline">{shortenedUrl}</a>
+               <button onClick={() => navigator.clipboard.writeText(shortenedUrl)}><Copy className="w-5 h-5 cursor-pointer"  /></button>
+            </div>
+             
+            </div>
+        )}
       </div>
     </div>
   );
