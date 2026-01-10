@@ -19,5 +19,9 @@ export const useGetShortenUrl = (longUrl: string) => {
         queryKey: ['shortenedUrl', longUrl],
         queryFn: () => fetchShortenedUrl(longUrl),
         enabled: !!longUrl,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
+        staleTime:Infinity,
     });
 }

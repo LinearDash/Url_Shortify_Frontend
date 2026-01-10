@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../components/ui/button";
 import { Copy } from 'lucide-react';
@@ -8,23 +8,25 @@ import { useGetShortenUrl } from "@/hooks/useGetShortenUrl";
 export const Homepage = () => {
   const [url, setUrl] = useState("");
   const [urlInput, setUrlInput] = useState("");
-  const [shortenedUrl, setShortenedUrl] = useState('');
+  const [shortenedUrl, setShortenedUrl] = useState("");
   const { data } = useGetShortenUrl(urlInput);
 
-  console.log('hello');
-  
+  if (data && !shortenedUrl) {
+    setShortenedUrl(`${window.location.origin}/${data}`);
+  }
   const handleSubmit = () => {
     if (url.trim()) {
+      setShortenedUrl(""); 
       setUrlInput(url);
+      setUrl("");
     }
   };
 
-  useEffect(() => {
-    if (data) {
-      const shortUrl = `${window.location.origin}/${data}`;
-      setShortenedUrl(shortUrl);
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
     }
-  }, [data]);
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-50">
       <div className="w-full max-w-2xl space-y-6">
@@ -40,6 +42,7 @@ export const Homepage = () => {
             className="flex-1 sm:max-w-md"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <Button className="sm:ml-0" onClick={handleSubmit}>Shorten</Button>
         </div>
