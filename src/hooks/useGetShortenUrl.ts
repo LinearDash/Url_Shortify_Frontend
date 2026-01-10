@@ -2,13 +2,11 @@ import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchShortenedUrl = async (url: string) => {
-    try {
-        console.log(url);
-        
+    try {        
         const data = await api.shortenUrl(url);
         return data.data.shortCode;
     } catch (error) {
-        console.error('Failed to shorten URL:', error);
+        console.error('Failed to shorten URL:', error);        
         throw error;
     }
 

@@ -37,7 +37,7 @@ export const Homepage = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error("Failed to shorten URL. Please try again.");
+      toast.error(error.message || "Failed to shorten URL. Please try again.");
     }
     if (isSuccess) {
       toast.success("URL shortened successfully!");

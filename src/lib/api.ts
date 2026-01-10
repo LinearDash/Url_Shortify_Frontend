@@ -11,7 +11,8 @@ export const api = {
         });
         
         if (!response.ok) {
-            throw new Error('Failed to shorten URL');
+            const errorData = await response.json();            
+            throw new Error(errorData.errors[0].message || 'Failed to shorten URL');
         }
         return response.json();
     },
@@ -19,7 +20,8 @@ export const api = {
         const response = await fetch(`${API_BASE_URL}/url/${shortCode}`);
         
         if (!response.ok) {
-            throw new Error('Failed to get original URL');
+           const errorData = await response.json();            
+            throw new Error(errorData.errors[0].message || 'Failed to get original URL');
         }
         return response.json();
     }
