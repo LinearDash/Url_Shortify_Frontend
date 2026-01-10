@@ -9,7 +9,7 @@ export const Homepage = () => {
   const [url, setUrl] = useState("");
   const [urlInput, setUrlInput] = useState("");
   const [shortenedUrl, setShortenedUrl] = useState("");
-  const { data } = useGetShortenUrl(urlInput);
+  const { data, isLoading } = useGetShortenUrl(urlInput);
 
   if (data && !shortenedUrl) {
     setShortenedUrl(`${window.location.origin}/${data}`);
@@ -46,6 +46,13 @@ export const Homepage = () => {
           />
           <Button className="sm:ml-0" onClick={handleSubmit}>Shorten</Button>
         </div>
+        {isLoading && (
+          <div className="bg-white p-4 rounded shadow text-center">
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-gray-800">Shortening your URL...</p>
+            </div>
+          </div>
+        )}
         {shortenedUrl && (
             <div className="bg-white p-4 rounded shadow text-center flex-2 flex-row">
             <p className="text-gray-800">Shortened URL:</p>
