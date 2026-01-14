@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <Toaster position="top-center" />
-    <RouterProvider router={router} />
+    <RouterProvider router={router} /> 
     </QueryClientProvider>
   </StrictMode>,
 )

@@ -26,5 +26,17 @@ export const api = {
 
         return response.json();
 
-    }
+    },
+    async getUrls(){
+        const response = await fetch(`${API_BASE_URL}/url`,{
+            method: 'GET',
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();            
+            throw new Error(errorData.message|| 'Failed to retrieve URLs');            
+        }
+        
+        return response.json();
+    },
 }
