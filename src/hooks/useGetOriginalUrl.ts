@@ -3,8 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 
 const fetchOriginalUrl = async (shortCode: string) => {
     try {
-        const data = await api.getOrignialUrl(shortCode);
-        return data.data;
+        const data = await api.getUrlDetails(shortCode);
+        console.log(data.data.originalUrl);
+        
+        return data.data.originalUrl;
     } catch (error) {
         console.error('Failed to get original URL:', error);
         throw error;

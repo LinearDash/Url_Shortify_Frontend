@@ -16,13 +16,15 @@ export const api = {
         }
         return response.json();
     },
-    async getOrignialUrl(shortCode: string){
+    async getUrlDetails(shortCode: string){
         const response = await fetch(`${API_BASE_URL}/url/${shortCode}`);
         
         if (!response.ok) {
             const errorData = await response.json();            
             throw new Error(errorData.message|| 'Failed to retrieve original URL');            
         }
+
         return response.json();
+
     }
 }
