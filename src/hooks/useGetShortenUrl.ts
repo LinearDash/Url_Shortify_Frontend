@@ -1,5 +1,6 @@
 import { api } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
 
 const fetchShortenedUrl = async (url: string) => {
     try {        
@@ -12,14 +13,13 @@ const fetchShortenedUrl = async (url: string) => {
 
 }
 
-export const useGetShortenUrl = (longUrl: string) => {
-    return useQuery({
-        queryKey: ['shortenedUrl', longUrl],
-        queryFn: () => fetchShortenedUrl(longUrl),
-        enabled: !!longUrl,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        staleTime:Infinity,
-    });
+export const useGetShortenUrl = () => {
+    
+    return useMutation({
+        mutationFn: (longUrl: string) => fetchShortenedUrl(longUrl),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['urls'] });
+        }
+    })
+
 }

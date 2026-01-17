@@ -1,25 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../components/ui/button";
 import { Copy } from 'lucide-react';
 import { useGetShortenUrl } from "@/hooks/useGetShortenUrl";
 import toast from "react-hot-toast";
 
-
 export const Homepage = () => {
   const [url, setUrl] = useState("");
-  const [urlInput, setUrlInput] = useState("");
-  const [shortenedUrl, setShortenedUrl] = useState("");
-  const { data, isLoading, error, isSuccess } = useGetShortenUrl(urlInput);
+  const { mutate, data, isPending } = useGetShortenUrl();
 
-  if (data && !shortenedUrl) {
-    setShortenedUrl(`${window.location.origin}/${data}`);
-  }
+  const shortenedUrl = data ? `${window.location.origin}/${data}` : '';
+
   const handleSubmit = () => {
     if (url.trim()) {
-      setShortenedUrl(""); 
-      setUrlInput(url);
-      setUrl("");
+      mutate(url, {
+        onSuccess: () => {
+          toast.success("URL shortened successfully!");
+          setUrl("");
+        },
+        onError: (err: Error) => {
+          toast.error(err.message || "Failed to shorten URL. Please try again.");
+        }
+      });
     }
   };
 
@@ -28,6 +30,7 @@ export const Homepage = () => {
       handleSubmit();
     }
   };
+
   const handleCopy = () => {
     if (shortenedUrl) {
       navigator.clipboard.writeText(shortenedUrl);
@@ -35,14 +38,6 @@ export const Homepage = () => {
     }
   };
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Failed to shorten URL. Please try again.");
-    }
-    if (isSuccess) {
-      toast.success("URL shortened successfully!");
-    }
-  }, [error,isSuccess]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-50">
       <div className="w-full max-w-2xl space-y-6">
@@ -59,25 +54,44 @@ export const Homepage = () => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyPress={handleKeyPress}
+            disabled={isPending}
           />
-          <Button className="sm:ml-0" onClick={handleSubmit}>Shorten</Button>
+          <Button 
+            className="sm:ml-0" 
+            onClick={handleSubmit}
+            disabled={isPending || !url.trim()}
+          >
+            {isPending ? "Shortening..." : "Shorten"}
+          </Button>
         </div>
-        {isLoading && (
+        {isPending && (
           <div className="bg-white p-4 rounded shadow text-center">
             <div className="flex items-center justify-center gap-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
               <p className="text-gray-800">Shortening your URL...</p>
             </div>
           </div>
         )}
         {shortenedUrl && (
-            <div className="bg-white p-4 rounded shadow text-center flex-2 flex-row">
-            <p className="text-gray-800">Shortened URL:</p>
+          <div className="bg-white p-4 rounded shadow text-center">
+            <p className="text-gray-800 mb-2">Shortened URL:</p>
             <div className="flex items-center justify-center gap-2">
-               <a href={shortenedUrl} className="text-blue-600 underline">{shortenedUrl}</a>
-               <button onClick={handleCopy}><Copy className="w-5 h-5 cursor-pointer"  /></button>
+              <a 
+                href={shortenedUrl} 
+                className="text-blue-600 underline break-all"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {shortenedUrl}
+              </a>
+              <button 
+                onClick={handleCopy}
+                className="hover:opacity-70 transition-opacity"
+              >
+                <Copy className="w-5 h-5 cursor-pointer" />
+              </button>
             </div>
-             
-            </div>
+          </div>
         )}
       </div>
     </div>

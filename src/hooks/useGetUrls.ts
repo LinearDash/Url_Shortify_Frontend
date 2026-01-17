@@ -16,10 +16,5 @@ export const useGetUrls = () => {
     return useQuery({
         queryKey: ['urls'],
         queryFn: () => fetchUrls(),
-        enabled: true,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-        staleTime:Infinity,
     });
 }
