@@ -2,13 +2,29 @@ import { UrlBlock } from "@/components/urlBlock";
 import { useGetUrls } from "@/hooks/useGetUrls";
 import { useMemo } from "react";
 
+type UrlData = {
+    id: string;
+    originalUrl: string;
+    shortCode: string;
+    createdAt: string;
+    clickLogs: ClickLog[];
+};
+type ClickLog = {
+    id: string;
+    urlId: string;
+    ip: string;
+    userAgent: string;
+    country: string;
+    clickedAt: string;
+};
+
 export const Analytics = () => {
     const { data: urls, isLoading } = useGetUrls();
     // const [inputValue, setInputValue] = useState("");
 
     const totalClicks = useMemo(() => {
         if (!urls) return 0;
-        return urls.reduce((acc:number, url) => acc + (url.clickLogs ? url.clickLogs.length : 0), 0);
+        return urls.reduce((acc:number, url: UrlData) => acc + (url.clickLogs ? url.clickLogs.length : 0), 0);
     }, [urls]);
 
     const avgClicksPerUrl = useMemo(() => {
@@ -55,7 +71,7 @@ export const Analytics = () => {
                 onChange={handelInputChange}
             /> */}
             
-         {urls.map(url => <UrlBlock key={url.id} urlData={url} />)}
+         {urls.map((url: UrlData) => <UrlBlock key={url.id} urlData={url} />)}
         </div>
         </>
     );
