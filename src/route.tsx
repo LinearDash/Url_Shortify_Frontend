@@ -3,6 +3,7 @@ import { Homepage } from "./pages/homepage";
 import { RedirectPage } from "./pages/redirectPage";
 import { Analytics } from "./pages/analytics";
 import { UrlDetailPage } from "./pages/urlDetailPage";
+import { NotFound } from "./pages/notFound";
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     {
         path: "/analytics/:shortCode",
         element: <UrlDetailPage />,
+    },
+    {
+        path: "*",
+        element: <NotFound/>
     }
 ]);
 
