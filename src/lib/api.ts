@@ -22,8 +22,7 @@ export const api = {
         if (!response.ok) {
             const errorData = await response.json();            
             throw new Error(errorData.message|| 'Failed to retrieve original URL');            
-        }
-
+        }        
         return response.json();
 
     },
