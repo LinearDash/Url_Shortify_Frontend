@@ -39,4 +39,19 @@ export const api = {
         
         return response.json();
     },
+    async createClickLog(urlShortCode: string, ip: string, country: string){
+        const response = await fetch(`${API_BASE_URL}/click`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ urlShortCode, ip, country }),
+        })
+        if (!response.ok) {
+            const errorData = await response.json();            
+            throw new Error(errorData.message|| 'Failed to retrieve click stats');            
+        }
+        
+        return response.json();
+    }
 }

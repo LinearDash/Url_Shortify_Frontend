@@ -1,3 +1,4 @@
+import { useCreateClick } from "@/hooks/useCreateClick";
 import { useGetOriginalUrl } from "@/hooks/useGetOriginalUrl";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -6,12 +7,21 @@ import { useParams } from "react-router-dom";
 export const RedirectPage = () => {
     const { shortCode } = useParams();
     const { data: originalUrl, error } = useGetOriginalUrl(shortCode || "");
+    const { mutate: logClick } = useCreateClick();
 
     useEffect(() => {
-        if (originalUrl) {
-            window.location.href = originalUrl;
+        if (originalUrl && shortCode) {
+            logClick(shortCode, {
+                onSuccess: () => {
+                    window.location.href = originalUrl;
+                },
+                onError: (err) => {
+                    console.error("Failed to log click:", err);
+                    window.location.href = originalUrl;
+                }
+            });
         }
-    }, [originalUrl]);
+    }, [originalUrl, shortCode, logClick]);
 
     useEffect(() => { 
         if (error) {
