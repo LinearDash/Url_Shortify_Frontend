@@ -1,5 +1,6 @@
 import { UrlBlock } from "@/components/urlBlock";
 import { useGetUrls } from "@/hooks/useGetUrls";
+import { TrendingUp } from "lucide-react";
 import { useMemo } from "react";
 
 type UrlData = {
@@ -56,13 +57,34 @@ export const Analytics = () => {
 
     return (
         <>
-        <div className="p-5 m-4">
-            <h1 className="text-4xl font-bold text-slate-900 mb-6">Analytics Dashboard</h1>
-            <div>Total URLs: {urls.length}</div>
-            <div>Total Clicks: {totalClicks}</div>
-            <div>Avg Clicks per URL: {avgClicksPerUrl}</div>
+         {/* Header */}
+      <div className="border-b border-border bg-card sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-primary/10">
+              <TrendingUp className="w-6 h-6 text-primary" />
+            </div>
+            <h1 className="text-3xl font-extrabold text-foreground">URL Analytics</h1>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div className="p-4 rounded-lg border border-border bg-secondary/50">
+              <div className="text-sm text-muted-foreground mb-1 font-bold">Total URLs</div>
+              <div className="text-2xl font-bold text-foreground">{urls.length}</div>
+            </div>
+            <div className="p-4 rounded-lg border border-border bg-secondary/50">
+              <div className="text-sm text-muted-foreground mb-1 font-bold">Total Clicks</div>
+              <div className="text-2xl font-bold text-primary">{totalClicks}</div>
+            </div>
+            <div className="p-4 rounded-lg border border-border bg-secondary/50">
+              <div className="text-sm text-muted-foreground mb-1 font-bold">Avg Clicks/URL</div>
+              <div className="text-2xl font-bold text-foreground">{avgClicksPerUrl}</div>
+            </div>
+          </div>
         </div>
-        <div className="p-6">
+      </div>
+           <div className="p-6 mb-6 max-w-7xl mx-auto">
             {/* <input
                 type="text"
                 placeholder="Search URLs by short code"

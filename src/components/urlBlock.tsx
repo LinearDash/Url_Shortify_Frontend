@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { Card } from "./ui/card";
 
 type ClickLog = {
     id: string;
@@ -23,10 +25,12 @@ type UrlBlockProps = {
 export const UrlBlock= ({ urlData }: UrlBlockProps) => {
     const totalClicks = urlData.clickLogs ? urlData.clickLogs.length : 0;
     return (
-        <div className="w-full mb-4 bg-slate-50 rounded-lg border border-slate-200 p-6 hover:shadow-md transition-shadow">
+    <Link to={`/analytics/${urlData.shortCode}`}>
+    <Card className="w-full border border-border bg-card hover:bg-neutral-100 transition-colors cursor-pointer mb-3" >
+        <div className="p-6">
             <div className="flex justify-between items-start mb-4">
                 <h3 className="text-3xl font-bold text-slate-900">{urlData.shortCode}</h3>
-                <div className="text-sm text-slate-600">Clicks: {totalClicks}</div>
+                <div className="text-sm text-slate-900">Clicks: <span className="text-blue-600 font-bold">{totalClicks}</span></div>
             </div>
             <div className="mb-2">
                 <span className="text-sm text-slate-500">
@@ -41,6 +45,8 @@ export const UrlBlock= ({ urlData }: UrlBlockProps) => {
                     <span className="font-medium text-slate-700">ID:</span> {urlData.id}
                 </p>
             </div>
-        </div>
+            </div>
+    </Card>
+    </Link>
     );
 };
