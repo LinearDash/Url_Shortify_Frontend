@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Homepage } from "./pages/homepage";
 import { RedirectPage } from "./pages/redirectPage";
 import { Analytics } from "./pages/analytics";
+import { UrlDetailPage } from "./pages/urlDetailPage";
 
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: "/analytics",
         element: <Analytics />,
+    },
+    {
+        path: "/analytics/:shortCode",
+        element: <UrlDetailPage />,
     }
 ]);
 
