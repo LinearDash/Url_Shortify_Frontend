@@ -1,11 +1,12 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const api = {
-    async shortenUrl(longUrl: string){        
+    async shortenUrl(longUrl: string, token: string) {        
         const response = await fetch(`${API_BASE_URL}/url/shorten`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({ originalUrl: longUrl }),
         });
