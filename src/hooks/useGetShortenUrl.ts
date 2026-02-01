@@ -18,7 +18,7 @@ const fetchShortenedUrl = async (url: string, token: string) => {
 export const useGetShortenUrl = () => {
     
     return useMutation({
-        mutationFn: ({ longUrl, token }: { longUrl: string; token: string | null }) => fetchShortenedUrl(longUrl, token),
+        mutationFn: ({ longUrl, token }: { longUrl: string; token: string | null }) => fetchShortenedUrl(longUrl, token || ''),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['urls'] });
         }
