@@ -5,7 +5,7 @@ type User = {
     id: string;
     email: string;
     name: string;
-    profilePicture: string;
+    avatarUrl: string;
 }
 
 type AuthContextType = {

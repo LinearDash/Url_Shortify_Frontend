@@ -1,9 +1,9 @@
 import { Button } from "./ui/button";
 
-import { FcGoogle } from "react-icons/fc"; // Uncomment if using react-icons
+import { FcGoogle } from "react-icons/fc"; 
 
 const handleGoogleSignIn = () => {
-  window.location.href = "http://localhost:3000/api/auth/google"; // Change to your actual endpoint if needed
+  window.location.href = "http://localhost:3000/api/auth/google"; 
 };
 
 export const GoogleSignInButton = () => (
