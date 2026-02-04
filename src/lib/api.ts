@@ -8,7 +8,7 @@ export const api = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ originalUrl: longUrl }),
+            body: JSON.stringify({ originalUrl: longUrl}),
         });
         
         if (!response.ok) {
@@ -52,6 +52,24 @@ export const api = {
         if (!response.ok) {
             const errorData = await response.json();            
             throw new Error(errorData.message|| 'Failed to retrieve click stats');            
+        }
+        
+        return response.json();
+    },
+    async getMyUrls(token: string){
+        
+        const response = await fetch(`${API_BASE_URL}/url/myUrls`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+            console.log(response);
+            
+        if (!response.ok) {
+            const errorData = await response.json();            
+            throw new Error(errorData.message|| 'Failed to retrieve user URLs');            
         }
         
         return response.json();

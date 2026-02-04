@@ -1,27 +1,18 @@
 import { UrlBlock } from "@/components/urlBlock";
-import { useGetUrls } from "@/hooks/useGetUrls";
 import { TrendingUp } from "lucide-react";
 import { useMemo } from "react";
+import { type UrlData } from "../types";
+import { useAuth } from "@/contexts/AuthContext";
+import GoogleSignInButton from "@/components/googleSignInButton";
+import { useGetMyUrls } from "@/hooks/useGetMyUrls";
 
-type UrlData = {
-    id: string;
-    originalUrl: string;
-    shortCode: string;
-    createdAt: string;
-    clickLogs: ClickLog[];
-};
-type ClickLog = {
-    id: string;
-    urlId: string;
-    ip: string;
-    userAgent: string;
-    country: string;
-    clickedAt: string;
-};
+
+
 
 export const Analytics = () => {
-    const { data: urls, isLoading } = useGetUrls();
-    // const [inputValue, setInputValue] = useState("");
+    
+    const { user, token } = useAuth();
+    const { data: urls, isLoading } = useGetMyUrls(token!);
 
     const totalClicks = useMemo(() => {
         if (!urls) return 0;
@@ -34,11 +25,14 @@ export const Analytics = () => {
     }, [totalClicks, urls]);
 
 
-    // const handelInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setInputValue(e.target.value);
-        
-    // }
-
+    if (!user) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+              <div className="text-lg text-slate-600">Please log in to view analytics.</div>
+              <GoogleSignInButton />
+            </div>
+        );
+    }
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -54,6 +48,7 @@ export const Analytics = () => {
             </div>
         );
     }
+
 
     return (
         <>
@@ -85,13 +80,6 @@ export const Analytics = () => {
         </div>
       </div>
            <div className="p-6 mb-6 max-w-7xl mx-auto">
-            {/* <input
-                type="text"
-                placeholder="Search URLs by short code"
-                className="w-full mb-6 p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400"
-                value={inputValue}
-                onChange={handelInputChange}
-            /> */}
             
          {urls.map((url: UrlData) => <UrlBlock key={url.id} urlData={url} />)}
         </div>
