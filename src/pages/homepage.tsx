@@ -53,19 +53,27 @@ export const Homepage = () => {
       
       <div className="absolute top-6 right-6">
       {isAuthenticated() && user ?(
-        <div className="flex items-center gap-3">
-          <img
-            src={user.avatarUrl}
-            alt={user.name}
-            className="w-10 h-10 rounded-full border-2 border-gray-300 shadow"
-            title={user.name}
-          />
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex items-center gap-3">
+            <img
+              src={user.avatarUrl}
+              alt={user.name}
+              className="w-10 h-10 rounded-full border-2 border-gray-300 shadow"
+              title={user.name}
+            />
+            <button
+              onClick={logout}
+              className=" text-black text-lg font-semibold rounded px-4 py-2 hover:bg-red-600 hover:text-white transition-colors"
+            >
+              Logout
+            </button>
+          </div>
           <button
-            onClick={logout}
-            className="text-sm text-gray-600 hover:underline"
+            onClick={() => window.location.href = "/analytics"}
+            className="bg-blue-600 text-white text-base font-medium rounded px-4 py-2 hover:bg-blue-700 transition-colors"
           >
-            Logout
-          </button>
+            View Your URLs
+          </button>        
         </div>
       ) : (
         <GoogleSignInButton />
