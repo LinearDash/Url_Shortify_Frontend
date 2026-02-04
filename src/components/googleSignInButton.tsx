@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { FcGoogle } from "react-icons/fc"; 
 
 const handleGoogleSignIn = () => {
-  window.location.href = "http://localhost:3000/api/auth/google"; 
+  window.location.href = `${import.meta.env.BACKEND_URL}/api/auth/google`; 
 };
 
 export const GoogleSignInButton = () => (
