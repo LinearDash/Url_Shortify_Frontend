@@ -15,7 +15,7 @@ export const UrlDetailPage = () => {
     
     const { data: urlDetail, isLoading, error } = useGetUrlDetails(shortCode || "");
 
-    console.log(urlDetail);
+    // console.log(urlDetail);
     
 
     if (isLoading) {
@@ -46,9 +46,38 @@ export const UrlDetailPage = () => {
         <div className="min-h-screen bg-slate-50 p-6">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold text-slate-900 mb-6">URL Details</h1>
-                <pre className="bg-white p-6 rounded-lg border border-slate-200 overflow-auto">
-                    {JSON.stringify(urlDetail, null, 2)}
-                </pre>
+                <div className="bg-white p-6 rounded-lg border border-slate-200 mb-6">
+                    <div className="mb-2">
+                        <span className="font-semibold text-slate-800">Original URL: </span>
+                        <a
+                            href={urlDetail.data.longUrl}
+                            className="text-blue-600 underline break-all"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {urlDetail.data.longUrl}
+                        </a>
+                    </div>
+                    <div className="mb-2">
+                        <span className="font-semibold text-slate-800">Shortened URL: </span>
+                        <a
+                            href={`${window.location.origin}/${urlDetail.data.shortCode}`}
+                            className="text-blue-600 underline break-all"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {`${window.location.origin}/${urlDetail.data.shortCode}`}
+                        </a>
+                    </div>
+                    <div className="mb-2">
+                        <span className="font-semibold text-slate-800">Created At: </span>
+                        {new Date(urlDetail.data.createdAt).toLocaleString()}
+                    </div>
+                    <div>
+                        <span className="font-semibold text-slate-800">Number of Clicks: </span>
+                        {urlDetail.data.clickLogs?.length ?? 0}
+                    </div>
+                </div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-6 mt-6">Click Log</h1>
                 <div className="bg-white rounded-lg border border-slate-200 overflow-auto">
                     <table className="w-full">
